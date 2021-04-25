@@ -64,7 +64,7 @@ if __name__ == '__main__':
     # creating a dictionary of safegraph place ids for filtering on weekly patterns
     place_ids = dict(
         rdd
-        .map(lambda e: next(csv.reader([e])))
+        .map(lambda e: next(csv.reader([e.encode('utf-8')])))
         .filter(lambda e: e[9] in place_naics.keys())
         .map(lambda e: (e[1], e[9]))
         .collect())
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     rdd = sc.textFile('hdfs:///data/share/bdm/weekly-patterns-nyc-2019-2020/*')
 
     rdd \
-      .map(lambda e: next(csv.reader([e]))) \
+      .map(lambda e: next(csv.reader([e.encode('utf-8')]))) \
       .filter(lambda e: e[1] in place_ids.keys()) \
       .map(lambda e: (place_naics.get(place_ids.get(e[1])), e[12], e[13], e[16])) \
       .filter(lambda e: e[1] >= '2018-12-31T00:00:00-05:00' and e[2] <= '2021-01-04T00:00:00-05:00') \
