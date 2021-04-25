@@ -14,7 +14,7 @@ spark = SparkSession(sc)
 # user-added argument output folder path
 OUTPUT_PREFIX = sys.argv[0]
 
-rdd = sc.textFile('hdfs:///data/share/bdm/core-places-nyc.csv')
+rdd = sc.textFile('hdfs://data/share/bdm/core-places-nyc.csv')
 
 place_naics = {'452210': 'big_box_grocers', '452311': 'big_box_grocers', '445120': 'convenience_stores',
                '722410': 'drinking_places', '722511': 'full_service_restaurants',
@@ -33,7 +33,7 @@ place_ids = dict(
     .collect()
 )
 
-rdd = sc.textFile('hdfs:///data/share/bdm/weekly-patterns-nyc-2019-2020/*')
+rdd = sc.textFile('hdfs://data/share/bdm/weekly-patterns-nyc-2019-2020/*')
 
 rdd \
   .map(lambda e: next(csv.reader([e]))) \
