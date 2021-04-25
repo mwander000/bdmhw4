@@ -12,7 +12,7 @@ sc = pyspark.SparkContext()
 spark = SparkSession(sc)
 
 # user-added argument output folder path
-OUTPUT_PREFIX = sys.argv[0]
+OUTPUT_PREFIX = sys.argv[1]
 
 rdd = sc.textFile('hdfs://data/share/bdm/core-places-nyc.csv')
 
