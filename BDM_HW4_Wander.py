@@ -8,7 +8,8 @@ import json
 import sys
 import os
 
-def parseVisits(e):
+
+def parse_visits(e):
     # e[1] == start_date
     # e[2] == end_date
     start_date = datetime.datetime.strptime(e[1][:10], "%Y-%m-%d")
@@ -45,6 +46,7 @@ def prepare_rows(e):
 
     return e[0][0], year, date, median, low, high
 
+
 sc = pyspark.SparkContext()
 spark = SparkSession(sc)
 
@@ -77,7 +79,7 @@ rdd \
   .filter(lambda e: e[1] in place_ids.keys()) \
   .map(lambda e: (place_naics.get(place_ids.get(e[1])), e[12], e[13], e[16])) \
   .filter(lambda e: e[1] >= '2018-12-31T00:00:00-05:00' and e[2] <= '2021-01-04T00:00:00-05:00') \
-  .map(parseVisits) \
+  .map(parse_visits) \
   .flatMap(lambda e: e) \
   .map(lambda e: ((e[0], e[1][0]), e[1][1])) \
   .groupByKey() \
