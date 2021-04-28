@@ -71,13 +71,8 @@ if __name__ == '__main__':
       .map(lambda e: ((e[0], e[1][0]), e[1][1])) \
       .groupByKey() \
       .map(prepare_rows) \
-      .toDF() \
+      .toDF(['category', 'year', 'date', 'median', 'low', 'high']) \
       .write \
-      .partitionBy('_1') \
+      .partitionBy('category') \
       .option('header', 'true') \
       .csv(OUTPUT_PREFIX)
-
-    for dirname in os.listdir(OUTPUT_PREFIX):
-        os.rename(OUTPUT_PREFIX + '/' + dirname, OUTPUT_PREFIX + '/' + dirname.replace('_1=', ''))
-
-
