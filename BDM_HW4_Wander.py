@@ -56,6 +56,15 @@ def prepare_rows(partId, rows):
   
     yield (e[0][0], year, date, median, low, high)
 
+def to_list(a):
+     return [a]
+def append(a, b):
+     a.append(b)
+     return a    
+def extend(a, b):
+    a.extend(b)
+    return a
+    
 if __name__ == '__main__':
     
     # Initialize spark contexts
@@ -90,7 +99,7 @@ if __name__ == '__main__':
       .mapPartitionsWithIndex(parse_visits) \
       .flatMap(lambda e: e) \
       .mapPartitionsWithIndex(fix_rows) \
-      .groupByKey() \
+      .combineByKey(to_list, append, extend) \
       .mapPartitionsWithIndex(prepare_rows) \
       .toDF(['category', 'year', 'date', 'median', 'low', 'high']) \
       .write \
