@@ -102,6 +102,8 @@ if __name__ == '__main__':
       .combineByKey(to_list, append, extend) \
       .mapPartitionsWithIndex(prepare_rows) \
       .toDF(['category', 'year', 'date', 'median', 'low', 'high']) \
+      .repartition(1) \
+      .coalesce(1) \
       .write \
       .partitionBy('category') \
       .option('header', 'true') \
