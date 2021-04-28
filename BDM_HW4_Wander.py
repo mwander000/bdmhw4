@@ -83,7 +83,7 @@ if __name__ == '__main__':
         .map(lambda e: (e[1], e[9]))
         .collect())
 
-    rdd = sc.textFile('hdfs:///data/share/bdm/weekly-patterns-nyc-2019-2020/part-00000', use_unicode=True)
+    rdd = sc.textFile('hdfs:///data/share/bdm/weekly-patterns-nyc-2019-2020/part-00000', use_unicode=False)
 
     rdd \
       .mapPartitionsWithIndex(extract_places) \
