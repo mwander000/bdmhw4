@@ -97,7 +97,7 @@ def main(sc):
     # Writing
     for group_num in range(9):
       filename = FILENAMES.get(group_num)
-      rddJ.filter(lambda x: x[0]==group_num or x[0]==-group_num).values() \
+      rddJ.filter(lambda x: x[0]==group_num or x[0]==-1).values() \
         .saveAsTextFile(f'{OUTPUT_PREFIX}/{filename}')
 
 if __name__=='__main__':
