@@ -37,21 +37,21 @@ def main(sc):
         next(reader)
         for line in reader:
 
-        group_number = storeGroup.get(line[0])
-        start_date = datetime.datetime.strptime(str(line[12][:10]), "%Y-%m-%d")
+            group_number = storeGroup.get(line[0])
+            start_date = datetime.datetime.strptime(str(line[12][:10]), "%Y-%m-%d")
 
-        if group_number is not None:
+            if group_number is not None:
 
-            dates = [(start_date + datetime.timedelta(days=n)).date() for n in range(7)]
+                dates = [(start_date + datetime.timedelta(days=n)).date() for n in range(7)]
 
-            correct_date_diffs = [(date - datetime.date(2019, 1, 1)).days for date in dates if
-                                  date.year not in {2018, 2021}]
-            correct_indices = [date[0] for date in enumerate(dates) if date[1].year not in {2018, 2021}]
+                correct_date_diffs = [(date - datetime.date(2019, 1, 1)).days for date in dates if
+                                      date.year not in {2018, 2021}]
+                correct_indices = [date[0] for date in enumerate(dates) if date[1].year not in {2018, 2021}]
 
-            visits_by_day = [json.loads(line[16])[i] for i in correct_indices]
-            row = zip(tuple(zip([group_number] * len(correct_date_diffs), correct_date_diffs)), visits_by_day)
-            for elem in row:
-                yield elem
+                visits_by_day = [json.loads(line[16])[i] for i in correct_indices]
+                row = zip(tuple(zip([group_number] * len(correct_date_diffs), correct_date_diffs)), visits_by_day)
+                for elem in row:
+                    yield elem
 
     def computeStats(groupCount, _, records):
         for row in records:
